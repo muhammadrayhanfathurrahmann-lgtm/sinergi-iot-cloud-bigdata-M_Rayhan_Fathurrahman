@@ -1,0 +1,1803 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sinergi IoT, Cloud Computing & Big Data | Sistem Informasi</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-main: #0b0f19;
+      --bg-surface: #111827;
+      --bg-card: rgba(23, 32, 48, 0.65);
+      --bg-card-hover: rgba(30, 42, 64, 0.85);
+
+      --border-subtle: rgba(148, 163, 184, 0.12);
+      --border-active: rgba(56, 189, 248, 0.45);
+
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+
+      --cyan: #38bdf8;
+      --cyan-glow: rgba(56, 189, 248, 0.18);
+      --indigo: #818cf8;
+      --indigo-glow: rgba(129, 140, 248, 0.18);
+      --purple: #c084fc;
+      --emerald: #34d399;
+
+      --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-full: 9999px;
+
+      --transition: 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      font-family: var(--font-sans);
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      overflow-x: hidden;
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 1000px;
+      height: 420px;
+      background: radial-gradient(circle, rgba(56, 189, 248, 0.08) 0%, rgba(99, 102, 241, 0.05) 50%, transparent 100%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .presentation-progress {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: rgba(255, 255, 255, 0.05);
+      z-index: 200;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 16.66%;
+      background: linear-gradient(90deg, #38bdf8, #818cf8);
+      transition: width 0.35s ease;
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.6);
+    }
+
+    .navbar {
+      position: fixed;
+      top: 3px;
+      left: 0;
+      right: 0;
+      height: 64px;
+      background: rgba(11, 15, 25, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border-subtle);
+      z-index: 100;
+    }
+
+    .nav-container {
+      max-width: 1280px;
+      height: 100%;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+      user-select: none;
+    }
+
+    .brand-badge {
+      font-size: 0.72rem;
+      font-weight: 800;
+      background: rgba(56, 189, 248, 0.15);
+      color: var(--cyan);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      padding: 2px 7px;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+    }
+
+    .brand-name {
+      font-size: 1.1rem;
+      font-weight: 600;
+      letter-spacing: -0.02em;
+    }
+
+    .brand-name strong {
+      color: var(--cyan);
+    }
+
+    .nav-menu {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255, 255, 255, 0.03);
+      padding: 4px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .nav-item {
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-family: var(--font-sans);
+      font-size: 0.82rem;
+      font-weight: 500;
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      transition: all var(--transition);
+      white-space: nowrap;
+    }
+
+    .nav-item:hover {
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .nav-item.active {
+      color: #0b0f19;
+      background: var(--cyan);
+      font-weight: 700;
+      box-shadow: 0 2px 10px rgba(56, 189, 248, 0.35);
+    }
+
+    .btn-icon {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      width: 36px;
+      height: 36px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .btn-icon:hover {
+      color: var(--text-main);
+      border-color: var(--border-active);
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .presentation-deck {
+      position: relative;
+      min-height: calc(100vh - 67px - 70px);
+      margin-top: 67px;
+      margin-bottom: 70px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 36px 24px;
+      z-index: 1;
+    }
+
+    .slide {
+      display: none;
+      width: 100%;
+      max-width: 1200px;
+      opacity: 0;
+      transform: translateY(12px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .slide.active {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .slide-content {
+      width: 100%;
+    }
+
+    .slide-header {
+      margin-bottom: 28px;
+    }
+
+    .step-tag {
+      display: inline-block;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: var(--radius-full);
+      margin-bottom: 12px;
+    }
+
+    .tag-cyan { background: var(--cyan-glow); color: var(--cyan); border: 1px solid rgba(56, 189, 248, 0.3); }
+    .tag-indigo { background: var(--indigo-glow); color: var(--indigo); border: 1px solid rgba(129, 140, 248, 0.3); }
+    .tag-purple { background: rgba(192, 132, 252, 0.15); color: var(--purple); border: 1px solid rgba(192, 132, 252, 0.3); }
+    .tag-emerald { background: rgba(52, 211, 153, 0.15); color: var(--emerald); border: 1px solid rgba(52, 211, 153, 0.3); }
+
+    .slide-heading {
+      font-size: clamp(1.8rem, 2.8vw, 2.3rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      margin-bottom: 10px;
+    }
+
+    .slide-subheading {
+      font-size: 1rem;
+      color: var(--text-muted);
+      max-width: 820px;
+      line-height: 1.55;
+    }
+
+    .cover-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .badge-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--border-subtle);
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin-bottom: 20px;
+    }
+
+    .dot-indicator {
+      width: 8px;
+      height: 8px;
+      background: var(--cyan);
+      border-radius: 50%;
+      box-shadow: 0 0 10px var(--cyan);
+    }
+
+    .slide-title-hero {
+      font-size: clamp(2.2rem, 4.2vw, 3.4rem);
+      font-weight: 800;
+      letter-spacing: -0.035em;
+      line-height: 1.15;
+      margin-bottom: 18px;
+    }
+
+    .text-cyan { color: var(--cyan); }
+    .text-indigo { color: var(--indigo); }
+    .text-purple { color: var(--purple); }
+    .text-emerald { color: var(--emerald); }
+
+    .hero-desc {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+
+    .hero-highlights {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .highlight-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 12px 14px;
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .highlight-item:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-active);
+      transform: translateY(-2px);
+    }
+
+    .hl-num {
+      font-family: var(--font-mono);
+      font-weight: 700;
+      font-size: 0.85rem;
+    }
+
+    .highlight-item strong {
+      font-size: 0.9rem;
+      display: block;
+      margin-bottom: 2px;
+    }
+
+    .highlight-item p {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      line-height: 1.35;
+    }
+
+    .mockup-computer {
+      background: #0f1422;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: var(--radius-lg);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px rgba(56, 189, 248, 0.08);
+      overflow: hidden;
+      position: relative;
+    }
+
+    .mockup-window-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 10px 16px;
+      background: rgba(255, 255, 255, 0.03);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .mockup-dots {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+    }
+
+    .dot-red { background: #ef4444; }
+    .dot-yellow { background: #f59e0b; }
+    .dot-green { background: #10b981; }
+
+    .mockup-url-bar {
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      background: rgba(0, 0, 0, 0.35);
+      padding: 3px 12px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .mockup-live-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.68rem;
+      font-weight: 700;
+      font-family: var(--font-mono);
+      color: var(--cyan);
+      background: rgba(56, 189, 248, 0.12);
+      padding: 2px 8px;
+      border-radius: var(--radius-full);
+    }
+
+    .pulse-mini {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 6px var(--cyan);
+      animation: pulseMini 2s infinite;
+    }
+
+    @keyframes pulseMini {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.3; }
+    }
+
+    .mockup-screen-body {
+      padding: 20px;
+    }
+
+    .mockup-topo-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      letter-spacing: 0.05em;
+      margin-bottom: 16px;
+    }
+
+    .code-badge {
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--emerald);
+      background: rgba(52, 211, 153, 0.1);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    .topo-diagram {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 14px 10px;
+      margin-bottom: 18px;
+    }
+
+    .topo-node {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 4px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--text-muted);
+    }
+
+    .topo-icon {
+      font-size: 1.3rem;
+      line-height: 1;
+    }
+
+    .topo-arrow {
+      color: var(--text-dim);
+      font-weight: bold;
+    }
+
+    .screen-metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+    }
+
+    .metric-card {
+      background: rgba(255, 255, 255, 0.025);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 10px;
+      text-align: center;
+    }
+
+    .mc-label {
+      display: block;
+      font-size: 0.68rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      margin-bottom: 3px;
+    }
+
+    .mc-val {
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    .slide-split-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 32px;
+      align-items: center;
+    }
+
+    .split-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .info-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 18px 20px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      transition: all var(--transition);
+    }
+
+    .info-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-active);
+      transform: translateX(4px);
+    }
+
+    .card-icon-box {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .card-icon-box.cyan { background: var(--cyan-glow); color: var(--cyan); }
+    .card-icon-box.indigo { background: var(--indigo-glow); color: var(--indigo); }
+    .card-icon-box.purple { background: rgba(192, 132, 252, 0.15); color: var(--purple); }
+    .card-icon-box.emerald { background: rgba(52, 211, 153, 0.15); color: var(--emerald); }
+
+    .info-card h4 {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .info-card p {
+      font-size: 0.86rem;
+      color: var(--text-muted);
+      line-height: 1.5;
+    }
+
+    .info-card code {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      background: rgba(255, 255, 255, 0.08);
+      padding: 1px 5px;
+      border-radius: 4px;
+      color: var(--cyan);
+    }
+
+    .device-mockup-frame {
+      background: #0d121f;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.5);
+    }
+
+    .device-mockup-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      border-bottom: 1px solid var(--border-subtle);
+      padding-bottom: 10px;
+      margin-bottom: 16px;
+    }
+
+    .device-status {
+      color: var(--emerald);
+      font-weight: 600;
+    }
+
+    .device-gauges {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+
+    .sensor-readout {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+    }
+
+    .sr-label {
+      display: block;
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+    }
+
+    .sr-val {
+      font-family: var(--font-mono);
+      font-size: 1.4rem;
+      font-weight: 800;
+      margin: 3px 0;
+      display: block;
+    }
+
+    .sr-sub {
+      font-size: 0.68rem;
+      color: var(--text-muted);
+    }
+
+    .signal-stream-wave {
+      height: 48px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: flex-end;
+      gap: 5px;
+      padding: 8px 12px;
+      margin-bottom: 14px;
+    }
+
+    .wave-bar {
+      flex: 1;
+      background: var(--cyan);
+      border-radius: 2px 2px 0 0;
+      animation: wavePulse 1.8s ease-in-out infinite alternate;
+    }
+
+    .w1 { height: 35%; animation-delay: 0.1s; }
+    .w2 { height: 60%; animation-delay: 0.3s; }
+    .w3 { height: 85%; animation-delay: 0.5s; }
+    .w4 { height: 40%; animation-delay: 0.2s; }
+    .w5 { height: 95%; animation-delay: 0.7s; }
+    .w6 { height: 50%; animation-delay: 0.4s; }
+    .w7 { height: 75%; animation-delay: 0.6s; }
+    .w8 { height: 30%; animation-delay: 0.15s; }
+    .w9 { height: 70%; animation-delay: 0.45s; }
+    .w10 { height: 45%; animation-delay: 0.25s; }
+
+    @keyframes wavePulse {
+      0% { transform: scaleY(0.6); }
+      100% { transform: scaleY(1.1); }
+    }
+
+    .device-footer-spec {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      color: var(--text-dim);
+    }
+
+    .cloud-rack-visual {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .rack-unit {
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.78rem;
+    }
+
+    .rack-leds {
+      display: flex;
+      gap: 5px;
+    }
+
+    .led {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+    }
+
+    .led.green { background: #10b981; box-shadow: 0 0 6px #10b981; }
+    .led.blink { background: #38bdf8; animation: blinkLed 1s infinite; }
+
+    @keyframes blinkLed {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.2; }
+    }
+
+    .rack-name { font-family: var(--font-mono); color: #cbd5e1; }
+    .rack-rate { font-family: var(--font-mono); font-size: 0.72rem; color: var(--indigo); }
+
+    .cloud-summary-bar {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 10px;
+    }
+
+    .cs-label { display: block; font-size: 0.68rem; color: var(--text-dim); }
+    .cs-val { font-family: var(--font-mono); font-size: 0.88rem; font-weight: 700; }
+
+    .ml-status-box {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+      margin-bottom: 14px;
+    }
+
+    .ml-score-row {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      margin-bottom: 8px;
+    }
+
+    .ml-score-row strong { font-family: var(--font-mono); }
+
+    .ml-progress-track {
+      height: 6px;
+      background: #1e293b;
+      border-radius: var(--radius-full);
+      overflow: hidden;
+    }
+
+    .ml-progress-bar {
+      height: 100%;
+      background: linear-gradient(90deg, #34d399, #38bdf8);
+      border-radius: var(--radius-full);
+    }
+
+    .ml-findings {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .finding-pill {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      background: rgba(192, 132, 252, 0.08);
+      border: 1px solid rgba(192, 132, 252, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 8px 10px;
+      font-size: 0.76rem;
+      color: #e9d5ff;
+    }
+
+    .fp-dot {
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--purple);
+      margin-top: 5px;
+      flex-shrink: 0;
+    }
+
+    .dashboard-kpi-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .kpi-mini {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 10px;
+      text-align: center;
+    }
+
+    .km-label { display: block; font-size: 0.68rem; color: var(--text-dim); margin-bottom: 3px; }
+    .km-val { font-family: var(--font-mono); font-size: 0.95rem; font-weight: 800; }
+
+    .action-alert-box {
+      background: rgba(52, 211, 153, 0.08);
+      border: 1px solid rgba(52, 211, 153, 0.25);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+    }
+
+    .aab-header {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.7rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .aab-tag { color: var(--emerald); font-family: var(--font-mono); }
+    .aab-time { color: var(--text-dim); }
+    .aab-text { font-size: 0.78rem; color: var(--text-muted); line-height: 1.4; }
+
+    .workflow-stepper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 28px;
+    }
+
+    .flow-item {
+      flex: 1;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 16px 14px;
+      text-align: center;
+      transition: all var(--transition);
+    }
+
+    .flow-item:hover {
+      border-color: var(--border-active);
+      transform: translateY(-2px);
+    }
+
+    .flow-item.highlight {
+      border-color: rgba(52, 211, 153, 0.4);
+      background: rgba(52, 211, 153, 0.06);
+    }
+
+    .flow-step {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.08);
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 8px;
+      color: var(--cyan);
+    }
+
+    .flow-title { font-size: 0.88rem; font-weight: 700; margin-bottom: 4px; }
+    .flow-desc { font-size: 0.75rem; color: var(--text-muted); line-height: 1.4; }
+    .flow-arrow { color: var(--text-dim); font-size: 1.1rem; font-weight: bold; }
+
+    .synergy-summary-box {
+      background: rgba(17, 24, 39, 0.7);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+    }
+
+    .synergy-badge {
+      display: inline-block;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--cyan);
+      margin-bottom: 14px;
+    }
+
+    .synergy-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+    }
+
+    .synergy-item {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 12px;
+    }
+
+    .synergy-item.highlight {
+      background: rgba(56, 189, 248, 0.06);
+      border-color: rgba(56, 189, 248, 0.35);
+    }
+
+    .syn-title {
+      display: block;
+      font-size: 0.8rem;
+      font-weight: 700;
+      color: #cbd5e1;
+      margin-bottom: 4px;
+    }
+
+    .synergy-item.highlight .syn-title { color: var(--cyan); }
+    .synergy-item p { font-size: 0.76rem; color: var(--text-muted); line-height: 1.45; }
+
+    .presentation-footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 66px;
+      background: rgba(11, 15, 25, 0.92);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-top: 1px solid var(--border-subtle);
+      z-index: 100;
+    }
+
+    .footer-container {
+      max-width: 1280px;
+      height: 100%;
+      margin: 0 auto;
+      padding: 0 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      font-size: 0.88rem;
+      font-weight: 600;
+      padding: 9px 18px;
+      border-radius: var(--radius-full);
+      cursor: pointer;
+      transition: all var(--transition);
+    }
+
+    .nav-btn:hover:not(:disabled) {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: var(--border-active);
+      transform: translateY(-1px);
+    }
+
+    .nav-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+
+    .nav-btn-primary {
+      background: var(--cyan);
+      color: #0b0f19;
+      border-color: var(--cyan);
+    }
+
+    .nav-btn-primary:hover:not(:disabled) {
+      background: #7dd3fc;
+      box-shadow: 0 4px 15px rgba(56, 189, 248, 0.35);
+    }
+
+    .slide-indicator {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+    }
+
+    .indicator-current { color: var(--cyan); font-weight: 700; }
+    .indicator-sep { color: var(--text-dim); }
+    .indicator-total { color: var(--text-muted); }
+
+    .indicator-name {
+      font-family: var(--font-sans);
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      background: rgba(255, 255, 255, 0.04);
+      padding: 2px 10px;
+      border-radius: var(--radius-full);
+      border: 1px solid var(--border-subtle);
+      margin-left: 6px;
+    }
+
+    @media (max-width: 1024px) {
+      .cover-grid { grid-template-columns: 1fr; gap: 32px; }
+      .slide-split-grid { grid-template-columns: 1fr; gap: 24px; }
+      .workflow-stepper { flex-direction: column; }
+      .flow-arrow { transform: rotate(90deg); }
+      .synergy-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 768px) {
+      .nav-menu { display: none; }
+      .hero-highlights { grid-template-columns: 1fr; }
+      .synergy-grid { grid-template-columns: 1fr; }
+      .slide-title-hero { font-size: 2rem; }
+      .slide-heading { font-size: 1.5rem; }
+      .indicator-name { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="presentation-progress">
+    <div class="progress-bar-fill" id="progressBar"></div>
+  </div>
+
+  <header class="navbar">
+    <div class="nav-container">
+      <div class="brand" data-jump="0" role="button" tabindex="0">
+        <span class="brand-badge">SI</span>
+        <span class="brand-name">DataNexus<strong>.SI</strong></span>
+      </div>
+
+      <nav class="nav-menu" id="navMenu">
+        <button class="nav-item active" data-slide="0">Cover</button>
+        <button class="nav-item" data-slide="1">1. IoT Sensor</button>
+        <button class="nav-item" data-slide="2">2. Cloud</button>
+        <button class="nav-item" data-slide="3">3. Big Data</button>
+        <button class="nav-item" data-slide="4">4. Sistem Informasi</button>
+        <button class="nav-item" data-slide="5">Kasus & Sinergi</button>
+      </nav>
+
+      <div class="nav-right">
+        <button id="btnFullscreen" class="btn-icon" title="Mode Layar Penuh">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="presentation-deck">
+
+    <!-- SLIDE 0: COVER -->
+    <section class="slide active" id="slide-0" data-index="0">
+      <div class="slide-content">
+        <div class="cover-grid">
+          
+          <div class="cover-left">
+            <div class="badge-pill">
+              <span class="dot-indicator"></span>
+              <span>Sistem Informasi Berbasis Data</span>
+            </div>
+
+            <h1 class="slide-title-hero">
+              Sinergi <span class="text-cyan">IoT</span>, <span class="text-indigo">Cloud</span> & <span class="text-purple">Big Data</span>
+            </h1>
+            
+            <p class="hero-desc">
+              Transformasi aliran data fisik dunia nyata menjadi fondasi pengambilan keputusan strategis dan otomasi bisnis modern.
+            </p>
+
+            <div class="hero-highlights">
+              <div class="highlight-item" data-jump="1">
+                <span class="hl-num text-cyan">01</span>
+                <div>
+                  <strong>IoT Sensor</strong>
+                  <p>Mata & indra pengumpul realitas fisik</p>
+                </div>
+              </div>
+              <div class="highlight-item" data-jump="2">
+                <span class="hl-num text-indigo">02</span>
+                <div>
+                  <strong>Cloud Computing</strong>
+                  <p>Jantung & infrastruktur elastis</p>
+                </div>
+              </div>
+              <div class="highlight-item" data-jump="3">
+                <span class="hl-num text-purple">03</span>
+                <div>
+                  <strong>Big Data</strong>
+                  <p>Otak pengolah analitik prediktif</p>
+                </div>
+              </div>
+              <div class="highlight-item" data-jump="4">
+                <span class="hl-num text-emerald">04</span>
+                <div>
+                  <strong>Sistem Informasi</strong>
+                  <p>Muara eksekusi & dashboard keputusan</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cover-right">
+            <div class="mockup-computer">
+              <div class="mockup-window-bar">
+                <div class="mockup-dots">
+                  <span class="dot dot-red"></span>
+                  <span class="dot dot-yellow"></span>
+                  <span class="dot dot-green"></span>
+                </div>
+                <div class="mockup-url-bar">datanexus-core.network/telemetry</div>
+                <div class="mockup-live-tag">
+                  <span class="pulse-mini"></span> LIVE
+                </div>
+              </div>
+
+              <div class="mockup-screen-body">
+                <div class="mockup-topo-header">
+                  <span>EKOSISTEM DATA REAL-TIME</span>
+                  <span class="code-badge">Latensi: 14ms</span>
+                </div>
+
+                <div class="topo-diagram">
+                  <div class="topo-node node-1">
+                    <div class="topo-icon">📡</div>
+                    <span>Sensor IoT</span>
+                  </div>
+                  <div class="topo-arrow">&rarr;</div>
+                  <div class="topo-node node-2">
+                    <div class="topo-icon">☁️</div>
+                    <span>Cloud Stream</span>
+                  </div>
+                  <div class="topo-arrow">&rarr;</div>
+                  <div class="topo-node node-3">
+                    <div class="topo-icon">⚡</div>
+                    <span>Big Data ML</span>
+                  </div>
+                  <div class="topo-arrow">&rarr;</div>
+                  <div class="topo-node node-4">
+                    <div class="topo-icon">📊</div>
+                    <span>SI Dashboard</span>
+                  </div>
+                </div>
+
+                <div class="screen-metrics-grid">
+                  <div class="metric-card">
+                    <span class="mc-label">Paket Masuk</span>
+                    <span class="mc-val text-cyan">1.240.000 /dtk</span>
+                  </div>
+                  <div class="metric-card">
+                    <span class="mc-label">Cloud SLA</span>
+                    <span class="mc-val text-indigo">99.99% Uptime</span>
+                  </div>
+                  <div class="metric-card">
+                    <span class="mc-label">Akurasi Model</span>
+                    <span class="mc-val text-purple">99.4% Presisi</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 1: IOT SENSOR -->
+    <section class="slide" id="slide-1" data-index="1">
+      <div class="slide-content">
+        <div class="slide-header">
+          <span class="step-tag tag-cyan">Tahap 01 &bull; Perekaman Data Ground Truth</span>
+          <h2 class="slide-heading">Internet of Things (IoT): Menangkap Realitas Fisik</h2>
+          <p class="slide-subheading">
+            Perangkat IoT bertindak sebagai organ sensorik yang membaca fenomena fisik di lapangan tanpa ketergantungan input manual manusia.
+          </p>
+        </div>
+
+        <div class="slide-split-grid">
+          <div class="split-cards">
+            <div class="info-card">
+              <div class="card-icon-box cyan">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="3"></circle>
+                  <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                </svg>
+              </div>
+              <div>
+                <h4>Peran Kunci dalam SI</h4>
+                <p>Menghilangkan jeda manual. Mengonversi suhu, vibrasi, koordinat GPS, dan tekanan menjadi sinyal digital terukur seketika.</p>
+              </div>
+            </div>
+
+            <div class="info-card">
+              <div class="card-icon-box cyan">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                </svg>
+              </div>
+              <div>
+                <h4>Protokol Komunikasi Ringan</h4>
+                <p>Menggunakan protokol hemat energi seperti <code>MQTT</code>, <code>CoAP</code>, dan <code>LoRaWAN</code> yang sangat efisien untuk bandwidth rendah.</p>
+              </div>
+            </div>
+
+            <div class="info-card">
+              <div class="card-icon-box cyan">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                </svg>
+              </div>
+              <div>
+                <h4>Karakteristik & Batasan</h4>
+                <p>Mikrokontroler IoT memiliki RAM dan prosesor mikro. Mereka <em>tidak dirancang</em> untuk menyimpan atau mengolah data raksasa di perangkat.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="split-visual">
+            <div class="device-mockup-frame">
+              <div class="device-mockup-top">
+                <span class="device-label">IoT Sensor Node: ESP32-S3-PRO</span>
+                <span class="device-status">AKTIF &bull; 200 Hz</span>
+              </div>
+              
+              <div class="device-gauges">
+                <div class="sensor-readout">
+                  <span class="sr-label">Suhu Kontainer</span>
+                  <span class="sr-val text-cyan">-20.4°C</span>
+                  <span class="sr-sub">Batas Toleransi: -22°C s/d -15°C</span>
+                </div>
+                <div class="sensor-readout">
+                  <span class="sr-label">Vibrasi Kompresor</span>
+                  <span class="sr-val text-emerald">0.03 g</span>
+                  <span class="sr-sub">Getaran Dinamik Normal</span>
+                </div>
+              </div>
+
+              <div class="signal-stream-wave">
+                <div class="wave-bar w1"></div>
+                <div class="wave-bar w2"></div>
+                <div class="wave-bar w3"></div>
+                <div class="wave-bar w4"></div>
+                <div class="wave-bar w5"></div>
+                <div class="wave-bar w6"></div>
+                <div class="wave-bar w7"></div>
+                <div class="wave-bar w8"></div>
+                <div class="wave-bar w9"></div>
+                <div class="wave-bar w10"></div>
+              </div>
+
+              <div class="device-footer-spec">
+                <span>Payload: 48 Bytes MQTT</span>
+                <span>Baterai: 94% (Power Saving)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SLIDE 2: CLOUD COMPUTING -->
+    <section class="slide" id="slide-2" data-index="2">
+      <div class="slide-content">
+        <div class="slide-header">
+          <span class="step-tag tag-indigo">Tahap 02 &bull; Ingestion & Penampung Skalabel</span>
+          <h2 class="slide-heading">Cloud Computing: Transmisi & Infrastruktur Elastis</h2>
+          <p class="slide-subheading">
+            Karena sensor IoT terbatas, Cloud Computing bertindak sebagai jalan tol penampung untuk menyatukan ribuan titik data tanpa bottleneck.
+          </p>
+        </div>
+
+        <div class="slide-split-grid">
+          <div class="split-cards">
+            <div class="info-card">
+              <div class="card-icon-box indigo">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M18 10h-1.26A8 8 0 1 0 9 20h9a5 5 0 0 0 0-10z"></path>
+                </svg>
+              </div>
+              <div>
+                <h4>Elastisitas On-Demand</h4>
+                <p>Komputasi dan memori otomatis membesar saat data melonjak, tanpa perlu membeli atau merawat server fisik lokal.</p>
+              </div>
+            </div>
+
+            <div class="info-card">
+              <div class="card-icon-box indigo">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="2" y="2" width="20" height="8" rx="2" ry="2"></rect>
+                  <rect x="2" y="14" width="20" height="8" rx="2" ry="2"></rect>
+                  <line x1="6" y1="6" x2="6.01" y2="6"></line>
+                  <line x1="6" y1="18" x2="6.01" y2="18"></line>
+                </svg>
+              </div>
+              <div>
+                <h4>Message Broker & Data Lake</h4>
+                <p>Mengelola antrean aliran data masif melalui layanan seperti <code>AWS IoT Core</code>, <code>GCP Pub/Sub</code>, dan penyimpanan <code>S3/Blob</code>.</p>
+              </div>
+            </div>
+
+            <div class="info-card">
+              <div class="card-icon-box indigo">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                </svg>
+              </div>
+              <div>
+                <h4>Ketersediaan Tinggi (High Availability)</h4>
+                <p>Penyimpanan multi-zona menjamin data selalu dapat diakses oleh Sistem Informasi kapan saja tanpa risiko *server down*.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="split-visual">
+            <div class="device-mockup-frame">
+              <div class="device-mockup-top">
+                <span class="device-label">Cloud Cluster: Multi-AZ Ingestion Broker</span>
+                <span class="device-status text-indigo">Uptime 99.99%</span>
+              </div>
+
+              <div class="cloud-rack-visual">
+                <div class="rack-unit">
+                  <div class="rack-leds">
+                    <span class="led green"></span>
+                    <span class="led blink"></span>
+                  </div>
+                  <span class="rack-name">Pub/Sub Queue Node #01</span>
+                  <span class="rack-rate">42 MB/s</span>
+                </div>
+
+                <div class="rack-unit">
+                  <div class="rack-leds">
+                    <span class="led green"></span>
+                    <span class="led blink"></span>
+                  </div>
+                  <span class="rack-name">Pub/Sub Queue Node #02</span>
+                  <span class="rack-rate">46 MB/s</span>
+                </div>
+
+                <div class="rack-unit">
+                  <div class="rack-leds">
+                    <span class="led green"></span>
+                    <span class="led green"></span>
+                  </div>
+                  <span class="rack-name">Data Lake S3 Shard (Zone-A)</span>
+                  <span class="rack-rate">Replika Sinkron</span>
+                </div>
+              </div>
+
+              <div class="cloud-summary-bar">
+                <div class="cs-item">
+                  <span class="cs-label">Total Ingest</span>
+                  <span class="cs-val text-indigo">88.2 MB/dtk</span>
+                </div>
+                <div class="cs-item">
+                  <span class="cs-label">Failover</span>
+                  <span class="cs-val text-emerald">Auto-Active</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SLIDE 3: BIG DATA ANALYTICS -->
+    <section class="slide" id="slide-3" data-index="3">
+      <div class="slide-content">
+        <div class="slide-header">
+          <span class="step-tag tag-purple">Tahap 03 &bull; Pengolahan Kognitif & Kecerdasan</span>
+          <h2 class="slide-heading">Big Data Analytics: Mengubah Data Menjadi Insight</h2>
+          <p class="slide-subheading">
+            Tumpukan miliaran baris log IoT di Cloud diproses menggunakan algoritma terdistribusi dan Machine Learning untuk menghasilkan prediksi.
+          </p>
+        </div>
+
+        <div class="slide-split-grid">
+          <div class="split-cards">
+            <div class="info-card">
+              <div class="card-icon-box purple">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                  <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                  <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                </svg>
+              </div>
+              <div>
+                <h4>Pemrosesan Terdistribusi (5V)</h4>
+                <p>Mengurai data masif (<em>Volume, Velocity, Variety, Veracity, Value</em>) secara paralel dengan engine seperti <code>Apache Spark</code>.</p>
+              </div>
+            </div>
+
+            <div class="info-card">
+              <div class="card-icon-box purple">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="2" y1="12" x2="22" y2="12"></line>
+                  <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path>
+                </svg>
+              </div>
+              <div>
+                <h4>Penyaringan Anomali Mesin</h4>
+                <p>Model AI membedakan fluktuasi wajar dari kerusakan nyata, mendeteksi anomali suhu sebelum barang mengalami pembusukan.</p>
+              </div>
+            </div>
+
+            <div class="info-card">
+              <div class="card-icon-box purple">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="18" y1="20" x2="18" y2="10"></line>
+                  <line x1="12" y1="20" x2="12" y2="4"></line>
+                  <line x1="6" y1="20" x2="6" y2="14"></line>
+                </svg>
+              </div>
+              <div>
+                <h4>Analitik Prediktif Masa Depan</h4>
+                <p>Bukan sekadar mencatat sejarah, Big Data memperkirakan kegagalan armada beberapa jam sebelum peristiwa tersebut terjadi.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="split-visual">
+            <div class="device-mockup-frame">
+              <div class="device-mockup-top">
+                <span class="device-label">ML Engine: Distributed Isolation Forest</span>
+                <span class="device-status text-purple">Presisi 99.4%</span>
+              </div>
+
+              <div class="ml-status-box">
+                <div class="ml-score-row">
+                  <span>Skor Risiko Kerusakan:</span>
+                  <strong class="text-emerald">0.08 (Aman Terkendali)</strong>
+                </div>
+                <div class="ml-progress-track">
+                  <div class="ml-progress-bar" style="width: 8%;"></div>
+                </div>
+              </div>
+
+              <div class="ml-findings">
+                <div class="finding-pill">
+                  <span class="fp-dot"></span>
+                  <span>14,8 Juta titik data historis dianalisis dalam 38ms.</span>
+                </div>
+                <div class="finding-pill">
+                  <span class="fp-dot"></span>
+                  <span>Prediksi kompresor: Kondisi prima, jadwal servis 18 hari ke depan.</span>
+                </div>
+              </div>
+
+              <div class="device-footer-spec">
+                <span>Model Latency: 38ms</span>
+                <span>Output: Actionable Feature Score</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SLIDE 4: SISTEM INFORMASI -->
+    <section class="slide" id="slide-4" data-index="4">
+      <div class="slide-content">
+        <div class="slide-header">
+          <span class="step-tag tag-emerald">Tahap 04 &bull; Tindakan & Keputusan Eksekutif</span>
+          <h2 class="slide-heading">Sistem Informasi: Muara Nilai & Solusi Nyata</h2>
+          <p class="slide-subheading">
+            Sistem Informasi adalah wajah interaktif yang menyajikan kecerdasan data kepada para eksekutif dan memicu tindakan operasional nyata.
+          </p>
+        </div>
+
+        <div class="slide-split-grid">
+          <div class="split-cards">
+            <div class="info-card">
+              <div class="card-icon-box emerald">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+                  <line x1="8" y1="21" x2="16" y2="21"></line>
+                  <line x1="12" y1="17" x2="12" y2="21"></line>
+                </svg>
+              </div>
+              <div>
+                <h4>Executive Dashboard</h4>
+                <p>Menampilkan grafik KPI, kondisi armada langsung, dan alarm visual yang mudah dipahami oleh manajer dan pemangku kepentingan.</p>
+              </div>
+            </div>
+
+            <div class="info-card">
+              <div class="card-icon-box emerald">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                  <line x1="16" y1="13" x2="8" y2="13"></line>
+                  <line x1="16" y1="17" x2="8" y2="17"></line>
+                </svg>
+              </div>
+              <div>
+                <h4>Integrasi Bisnis ERP & SCM</h4>
+                <p>Mengalirkan insight ke proses bisnis nyata: memicu tiket servis otomatis di <code>SAP</code> atau peringatan ke pengemudi logistik.</p>
+              </div>
+            </div>
+
+            <div class="info-card">
+              <div class="card-icon-box emerald">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                  <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                </svg>
+              </div>
+              <div>
+                <h4>Keputusan Berbasis Data & Otomasi</h4>
+                <p>Meniadakan tebakan intuisi. Setiap respon dan kebijakan perusahaan didasarkan pada data faktual yang teruji secara ilmiah.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="split-visual">
+            <div class="mockup-computer">
+              <div class="mockup-window-bar">
+                <div class="mockup-dots">
+                  <span class="dot dot-red"></span>
+                  <span class="dot dot-yellow"></span>
+                  <span class="dot dot-green"></span>
+                </div>
+                <div class="mockup-url-bar">si-executive.corp/dashboard</div>
+                <div class="mockup-live-tag">READY</div>
+              </div>
+
+              <div class="mockup-screen-body">
+                <div class="dashboard-kpi-row">
+                  <div class="kpi-mini">
+                    <span class="km-label">Status Distribusi</span>
+                    <span class="km-val text-emerald">100% Terjaga</span>
+                  </div>
+                  <div class="kpi-mini">
+                    <span class="km-label">Efisiensi Biaya</span>
+                    <span class="km-val text-cyan">+Rp 340 Juta</span>
+                  </div>
+                </div>
+
+                <div class="action-alert-box">
+                  <div class="aab-header">
+                    <span class="aab-tag">WORK ORDER TERKIRIM</span>
+                    <span class="aab-time">Baru Saja</span>
+                  </div>
+                  <p class="aab-text">Sistem ERP menugaskan depo logistik Cikarang menyiapkan ruang pendingin tambahan secara otomatis.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- SLIDE 5: STUDI KASUS & KESIMPULAN -->
+    <section class="slide" id="slide-5" data-index="5">
+      <div class="slide-content">
+        <div class="slide-header">
+          <span class="step-tag tag-cyan">Studi Kasus Konkret & Sinergi Segitiga</span>
+          <h2 class="slide-heading">Kasus Nyata: Rantai Dingin Distribusi Vaksin (-20°C)</h2>
+          <p class="slide-subheading">
+            Contoh aplikatif bagaimana keempat elemen bersatu dalam satu kesatuan sistem untuk melindungi muatan bernilai tinggi.
+          </p>
+        </div>
+
+        <div class="workflow-stepper">
+          <div class="flow-item">
+            <div class="flow-step">1</div>
+            <div class="flow-title">Sensor IoT</div>
+            <div class="flow-desc">Sensor suhu kontainer mendeteksi kenaikan ke -12°C tiap 2 detik di perjalanan.</div>
+          </div>
+          <div class="flow-arrow">&rarr;</div>
+
+          <div class="flow-item">
+            <div class="flow-step">2</div>
+            <div class="flow-title">Cloud Broker</div>
+            <div class="flow-desc">Data dikirim lewat MQTT ke AWS IoT Core & disimpan di Data Lake secara instan.</div>
+          </div>
+          <div class="flow-arrow">&rarr;</div>
+
+          <div class="flow-item">
+            <div class="flow-step">3</div>
+            <div class="flow-title">Big Data ML</div>
+            <div class="flow-desc">Spark ML memprediksi risiko kerusakan vaksin dalam 30 menit bila suhu terus naik.</div>
+          </div>
+          <div class="flow-arrow">&rarr;</div>
+
+          <div class="flow-item highlight">
+            <div class="flow-step">4</div>
+            <div class="flow-title">Sistem Informasi</div>
+            <div class="flow-desc">Alarm darurat berbunyi di dashboard, kompresor dinaikkan 100%, supir dialihkan ke depo terdekat.</div>
+          </div>
+        </div>
+
+        <div class="synergy-summary-box">
+          <div class="synergy-badge">Rangkuman Sinergi Trinitas Data</div>
+          <div class="synergy-grid">
+            <div class="synergy-item">
+              <span class="syn-title">Tanpa IoT:</span>
+              <p>Sistem Informasi kekurangan data lapangan (*ground-truth*) dan buta terhadap kondisi fisik.</p>
+            </div>
+            <div class="synergy-item">
+              <span class="syn-title">Tanpa Cloud:</span>
+              <p>Data IoT terisolasi di perangkat lokal dan tidak ada infrastruktur untuk menampung skala besar.</p>
+            </div>
+            <div class="synergy-item">
+              <span class="syn-title">Tanpa Big Data:</span>
+              <p>Data masif hanya menjadi beban penyimpanan ("data swamp") tanpa menghasilkan pola cerdas.</p>
+            </div>
+            <div class="synergy-item highlight">
+              <span class="syn-title">Dengan Sinergi Ketiganya:</span>
+              <p>Terwujud <strong>Sistem Informasi Berbasis Data</strong> yang prediktif, otonom, terukur, dan bernilai tinggi.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Presentation Navigation Control Bar (Footer) -->
+  <footer class="presentation-footer">
+    <div class="footer-container">
+      
+      <button class="nav-btn" id="btnPrev" title="Slide Sebelumnya (Panah Kiri)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M15 18l-6-6 6-6"></path>
+        </svg>
+        <span>Sebelumnya</span>
+      </button>
+
+      <div class="slide-indicator">
+        <span class="indicator-current" id="currentSlideNum">1</span>
+        <span class="indicator-sep">/</span>
+        <span class="indicator-total" id="totalSlideNum">6</span>
+        <span class="indicator-name" id="currentSlideName">Cover</span>
+      </div>
+
+      <button class="nav-btn nav-btn-primary" id="btnNext" title="Slide Berikutnya (Panah Kanan / Spasi)">
+        <span>Berikutnya</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 18l6-6-6-6"></path>
+        </svg>
+      </button>
+
+    </div>
+  </footer>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const slides = document.querySelectorAll('.slide');
+      const totalSlides = slides.length;
+      let currentIndex = 0;
+
+      const slideTitles = [
+        "Cover & Pendahuluan",
+        "Tahap 1: IoT Sensor",
+        "Tahap 2: Cloud Computing",
+        "Tahap 3: Big Data Analytics",
+        "Tahap 4: Sistem Informasi",
+        "Kasus Nyata & Sinergi"
+      ];
+
+      const progressBar = document.getElementById('progressBar');
+      const btnPrev = document.getElementById('btnPrev');
+      const btnNext = document.getElementById('btnNext');
+      const currentSlideNum = document.getElementById('currentSlideNum');
+      const totalSlideNum = document.getElementById('totalSlideNum');
+      const currentSlideName = document.getElementById('currentSlideName');
+      const navItems = document.querySelectorAll('.nav-item');
+      const btnFullscreen = document.getElementById('btnFullscreen');
+
+      if (totalSlideNum) totalSlideNum.textContent = totalSlides;
+
+      function goToSlide(targetIndex) {
+        if (targetIndex < 0) targetIndex = 0;
+        if (targetIndex >= totalSlides) targetIndex = totalSlides - 1;
+        currentIndex = targetIndex;
+
+        slides.forEach((slide, idx) => {
+          slide.classList.toggle('active', idx === currentIndex);
+        });
+
+        if (progressBar) {
+          const percentage = totalSlides > 1 ? (currentIndex / (totalSlides - 1)) * 100 : 100;
+          progressBar.style.width = `${Math.max(percentage, 5)}%`;
+        }
+
+        if (currentSlideNum) currentSlideNum.textContent = currentIndex + 1;
+        if (currentSlideName) currentSlideName.textContent = slideTitles[currentIndex] || `Slide ${currentIndex + 1}`;
+
+        navItems.forEach((btn, idx) => {
+          btn.classList.toggle('active', idx === currentIndex);
+        });
+
+        if (btnPrev) btnPrev.disabled = (currentIndex === 0);
+
+        if (btnNext) {
+          if (currentIndex === totalSlides - 1) {
+            btnNext.innerHTML = `
+              <span>Mulai Dari Awal</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M23 4v6h-6"></path>
+                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+              </svg>
+            `;
+          } else {
+            btnNext.innerHTML = `
+              <span>Berikutnya</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 18l6-6-6-6"></path>
+              </svg>
+            `;
+          }
+        }
+
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        if (history.replaceState) {
+          history.replaceState(null, null, `#slide-${currentIndex}`);
+        }
+      }
+
+      function nextSlide() {
+        if (currentIndex === totalSlides - 1) goToSlide(0);
+        else goToSlide(currentIndex + 1);
+      }
+
+      function prevSlide() {
+        if (currentIndex > 0) goToSlide(currentIndex - 1);
+      }
+
+      if (btnNext) btnNext.addEventListener('click', nextSlide);
+      if (btnPrev) btnPrev.addEventListener('click', prevSlide);
+
+      navItems.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const slideIdx = parseInt(btn.getAttribute('data-slide'), 10);
+          goToSlide(slideIdx);
+        });
+      });
+
+      document.querySelectorAll('[data-jump]').forEach(el => {
+        el.addEventListener('click', () => {
+          const slideIdx = parseInt(el.getAttribute('data-jump'), 10);
+          goToSlide(slideIdx);
+        });
+      });
+
+      window.addEventListener('keydown', (e) => {
+        if (['INPUT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
+        switch (e.key) {
+          case 'ArrowRight':
+          case 'PageDown':
+          case ' ':
+            e.preventDefault();
+            nextSlide();
+            break;
+          case 'ArrowLeft':
+          case 'PageUp':
+            e.preventDefault();
+            prevSlide();
+            break;
+          case 'Home':
+            e.preventDefault();
+            goToSlide(0);
+            break;
+          case 'End':
+            e.preventDefault();
+            goToSlide(totalSlides - 1);
+            break;
+        }
+      });
+
+      if (btnFullscreen) {
+        btnFullscreen.addEventListener('click', () => {
+          if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().catch(() => {});
+          } else {
+            if (document.exitFullscreen) document.exitFullscreen();
+          }
+        });
+      }
+
+      const hash = window.location.hash;
+      if (hash && hash.startsWith('#slide-')) {
+        const hashIndex = parseInt(hash.replace('#slide-', ''), 10);
+        if (!isNaN(hashIndex) && hashIndex >= 0 && hashIndex < totalSlides) {
+          goToSlide(hashIndex);
+          return;
+        }
+      }
+
+      goToSlide(0);
+    });
+  </script>
+</body>
+</html>
